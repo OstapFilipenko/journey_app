@@ -11,7 +11,7 @@ class Journey {
   bool _isSaved;
   String _mainImagePath;
   List<Tag> _tags;
-  Destination _destination;
+  String _destination;
   List<String> _allImagesPaths;
 
   Journey() {}
@@ -26,7 +26,7 @@ class Journey {
       bool isSaved,
       String mainImagePath,
       List<Tag> tags,
-      Destination destination,
+      String destination,
       List<String> allImagePaths) {
     this._id = id;
     this._title = title;
