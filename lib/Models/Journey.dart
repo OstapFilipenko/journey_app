@@ -1,4 +1,4 @@
-import 'package:journey_app/Models/City.dart';
+import 'package:journey_app/Models/Destination.dart';
 import 'package:journey_app/Models/Tag.dart';
 
 class Journey {
@@ -8,11 +8,11 @@ class Journey {
   int _year;
   String _month;
   int _day;
-  bool _is_saved;
+  bool _isSaved;
   String _mainImagePath;
   List<Tag> _tags;
-  City _city;
-  List<String> _allImagesPahts;
+  Destination _destination;
+  List<String> _allImagesPaths;
 
   Journey() {}
 
@@ -23,10 +23,10 @@ class Journey {
       int year,
       String month,
       int day,
-      bool is_saved,
+      bool isSaved,
       String mainImagePath,
       List<Tag> tags,
-      City city,
+      Destination destination,
       List<String> allImagePaths) {
     this._id = id;
     this._title = title;
@@ -34,12 +34,41 @@ class Journey {
     this._year = year;
     this._month = month;
     this._day = day;
-    this._is_saved = is_saved;
+    this._isSaved = isSaved;
     this._mainImagePath = mainImagePath;
     this._tags = tags;
-    this._city = city;
-    this._allImagesPahts = allImagePaths;
+    this._destination = destination;
+    this._allImagesPaths = allImagePaths;
   }
+
+  factory Journey.fromJson(Map<String, dynamic> json) => Journey.withParams(
+        json["id"],
+        json["title"],
+        json["description"],
+        json["year"],
+        json["month"],
+        json["day"],
+        json["isSaved"],
+        json["mainImagePath"],
+        getTags(List<String>.from(json["tags"].map((x) => x))),
+        json["destination"],
+        List<String>.from(json["allImagesPaths"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "year": year,
+        "month": month,
+        "day": day,
+        "isSaved": isSaved,
+        "mainImagePath": mainImagePath,
+        "tags": "",
+        //"tags": List<dynamic>.from(tags.map((x) => x)),
+        "destination": destination,
+        "allImagesPaths": List<dynamic>.from(allImagesPaths.map((x) => x)),
+    };
 
   int get id => this._id;
 
@@ -65,9 +94,9 @@ class Journey {
 
   set day(value) => this._day = value;
 
-  get is_saved => this._is_saved;
+  get isSaved => this._isSaved;
 
-  set is_saved(value) => this._is_saved = value;
+  set isSaved(value) => this._isSaved = value;
 
   get mainImagePath => this._mainImagePath;
 
@@ -77,16 +106,20 @@ class Journey {
 
   set tags(value) => this._tags = value;
 
-  get city => this._city;
+  get destination => this._destination;
 
-  set city(value) => this._city = value;
+  set destination(value) => this._destination = value;
 
-  get allImagesPahts => this._allImagesPahts;
+  get allImagesPaths => this._allImagesPaths;
 
-  set allImagesPahts(value) => this._allImagesPahts = value;
+  set allImagesPaths(value) => this._allImagesPaths = value;
 
   @override
   String toString() {
     return super.toString();
   }
+}
+
+List<Tag> getTags(List<String> tags) {
+  return null;
 }

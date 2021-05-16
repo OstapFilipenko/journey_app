@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Journey App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
             print('You have an error! ${snapshot.error.toString()}');
             return Text('Something went wrong');
           } else if (snapshot.hasData) {
-            return MyHomePage(title: 'Flutter Demo Home Page');
+            return MyHomePage(title: 'Journey App');
           } else {
             return Center(
               child: new CircularProgressIndicator(),

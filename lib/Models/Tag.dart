@@ -2,7 +2,15 @@ class Tag {
   int _id;
   String _name;
 
-  Tag() {}
+  factory Tag.fromJson(Map<String, dynamic> json) => Tag.withParams(
+    json["id"],
+    json["name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+      "id": this._id,
+      "name": this._name,
+  };
 
   Tag.withParams(int id, String name) {
     this._id = id;
@@ -16,6 +24,7 @@ class Tag {
   get name => this._name;
 
   set name(value) => this._name = value;
+
 
   @override
   String toString() {
