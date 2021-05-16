@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:journey_app/Models/Journey.dart';
+import 'package:journey_app/Widgets/JourneyCard.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -35,9 +36,16 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: new Center(
-        child: new Text(journeys.length.toString()),
+    return journeys.isEmpty
+        ? new Center (child: new CircularProgressIndicator(),) 
+        : Container(
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: journeys.length,
+        itemBuilder: (BuildContext context, int index) {
+          return new JourneyCard(journey: journeys[index],);
+        },
       ),
     );
   }
