@@ -1,5 +1,11 @@
+import 'package:circle_bottom_navigation/circle_bottom_navigation.dart';
+import 'package:circle_bottom_navigation/widgets/tab_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:journey_app/Screens/Favourites.dart';
+import 'package:journey_app/Screens/Home.dart';
+import 'package:journey_app/Screens/Search.dart';
+import 'package:journey_app/Screens/Settings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,13 +50,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  int currentPage = 0;
+  final List<Widget> _pages = [
+    Home(),
+    Favourites(),
+    Search(),
+    Settings(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -58,24 +64,45 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      body: _pages[currentPage],
+      bottomNavigationBar: CircleBottomNavigation(
+        barHeight: 60,
+        circleSize: 45,
+        initialSelection: currentPage,
+        inactiveIconColor: Colors.grey,
+        textColor: Colors.black,
+        hasElevationShadows: false,
+        tabs: [
+          TabData(
+            icon: Icons.home,
+            iconSize: 25,
+            title: 'Home',
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          TabData(
+            icon: Icons.favorite,
+            iconSize: 25,
+            title: 'Favourites',
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          TabData(
+            icon: Icons.search,
+            iconSize: 25,
+            title: 'Search',
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          TabData(
+            icon: Icons.settings,
+            iconSize: 25,
+            title: 'Settings',
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ],
+        onTabChangedListener: (index) => setState(() => currentPage = index),
       ),
     );
   }
