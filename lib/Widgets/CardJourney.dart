@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:journey_app/Models/Journey.dart';
 import 'package:journey_app/Services/FireStorage.dart';
-import 'package:journey_app/Widgets/CardListTile.dart';
 
-class JourneyCard extends StatelessWidget {
-  JourneyCard({this.journey});
+class CardJourney extends StatelessWidget {
+  CardJourney({this.journey});
   Journey journey;
 
   Future<NetworkImage> _getImage(BuildContext context, String imageName) async {
@@ -18,6 +17,9 @@ class JourneyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       margin: new EdgeInsets.symmetric(
         horizontal: 10.0,
         vertical: 6.0,
@@ -26,17 +28,33 @@ class JourneyCard extends StatelessWidget {
         future: _getImage(context, 'main.jpg'),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return new Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: snapshot.data,
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter,
+            return new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                new Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: new Image(
+                      image: snapshot.data,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-              child: CardListTile(
-                journey: journey,
-              ),
+                new SizedBox(
+                  height: 10,
+                ),
+                new Text(
+                  journey.title,
+                  style: TextStyle(
+                    fontSize: 19
+                  ),
+                ),
+                new Text(
+                  journey.tags.toString()
+                ),
+              ],
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {

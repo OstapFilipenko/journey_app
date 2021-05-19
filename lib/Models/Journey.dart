@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:journey_app/Models/Destination.dart';
 import 'package:journey_app/Models/Tag.dart';
 
@@ -53,9 +54,9 @@ class Journey {
         getTags(List<String>.from(json["tags"].map((x) => x))),
         json["destination"],
         List<String>.from(json["allImagesPaths"].map((x) => x)),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "description": description,
@@ -68,7 +69,7 @@ class Journey {
         //"tags": List<dynamic>.from(tags.map((x) => x)),
         "destination": destination,
         "allImagesPaths": List<dynamic>.from(allImagesPaths.map((x) => x)),
-    };
+      };
 
   int get id => this._id;
 
@@ -121,5 +122,26 @@ class Journey {
 }
 
 List<Tag> getTags(List<String> tags) {
-  return null;
+  List<Tag> allTags = [];
+  List<Tag> postTags = [];
+  final dbRef = FirebaseDatabase.instance.reference().child('tags');
+  dbRef.once().then((DataSnapshot snapshot) {
+    allTags = parseTags(snapshot);
+  });
+  tags.forEach((tag) {
+    allTags.forEach((allTag) {
+      if (tag == allTag.name) {
+        postTags.add(allTag);
+      }
+    });
+  });
+  return postTags;
+}
+
+List<Tag> parseTags(DataSnapshot dataSnapshot) {
+  var tagList = <Tag>[];
+  List<dynamic>.from(dataSnapshot.value).forEach((value) {
+    tagList.add(Tag.fromJson(Map.from(value)));
+  });
+  return tagList;
 }

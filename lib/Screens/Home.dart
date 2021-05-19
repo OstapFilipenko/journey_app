@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:journey_app/Models/Journey.dart';
-import 'package:journey_app/Widgets/JourneyCard.dart';
+import 'package:journey_app/Widgets/CardJourney.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         shrinkWrap: true,
         itemCount: journeys.length,
         itemBuilder: (BuildContext context, int index) {
-          return new JourneyCard(journey: journeys[index],);
+          return new CardJourney(journey: journeys[index],);
         },
       ),
     );
